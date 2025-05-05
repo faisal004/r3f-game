@@ -2,7 +2,7 @@
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
 import Experience from './Experience.jsx';
-
+import { Perf } from 'r3f-perf'
 function App() {
   return (
     <Canvas
@@ -14,6 +14,8 @@ function App() {
         position: [ 2.5, 4, 6 ]
     } }
 >
+<Perf />
+
     <Experience />
 </Canvas>
   );
