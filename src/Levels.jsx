@@ -15,6 +15,13 @@ function BlockStart({ position = [0, 0, 0] }) {
     </group>
 
 }
+function BlockEnd({ position = [0, 0, 0] }) {
+    return <group position={position}>
+        <mesh geometry={boxGeometry} material={floor1Material} position={[0, 0, 0]} scale={[4, 0.2, 4]} receiveShadow />
+
+    </group>
+
+}
 function BlockSpinner({ position = [0, 0, 0] }) {
     const obstacle = useRef()
     const [speed] = useState(() => (Math.random() + 0.2) * (Math.random() < 0.5 ? - 1 : 1))
@@ -76,7 +83,7 @@ const Levels = () => {
         <BlockSpinner position={[0, 0, 8]} />
         <BlockLimbo position={[0, 0, 4]} />
         <BlockAxe position={[0, 0, 0]} />
-
+        <BlockEnd position={[0, 0, -4]} />
 
     </>
 }
