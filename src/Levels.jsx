@@ -19,6 +19,15 @@ function BlockStart({ position = [0, 0, 0] }) {
 function BlockEnd({ position = [0, 0, 0] }) {
 
     const trophy = useGLTF('/model.gltf')
+    const { scene } = useGLTF('/model.gltf')
+
+    console.log(trophy)
+    scene.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.castShadow = true
+          child.receiveShadow = true // optional
+        }
+      })
     return <group position={position}>
         <mesh geometry={boxGeometry} material={floor1Material} position={[0, 0, 0]} scale={[4, 0.2, 4]} receiveShadow />
         <primitive object={trophy.scene}  scale={0.6}/>
