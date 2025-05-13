@@ -1,8 +1,8 @@
 import { RigidBody } from '@react-three/rapier'
 import * as THREE from 'three'
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
-import {useGLTF} from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 const floor1Material = new THREE.MeshStandardMaterial({ color: 'limegreen' })
 const floor2Material = new THREE.MeshStandardMaterial({ color: 'greenyellow' })
@@ -24,13 +24,13 @@ function BlockEnd({ position = [0, 0, 0] }) {
     console.log(trophy)
     scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
-          child.castShadow = true
-          child.receiveShadow = true // optional
+            child.castShadow = true
+            child.receiveShadow = true // optional
         }
-      })
+    })
     return <group position={position}>
         <mesh geometry={boxGeometry} material={floor1Material} position={[0, 0, 0]} scale={[4, 0.2, 4]} receiveShadow />
-        <primitive object={trophy.scene}  scale={0.6}/>
+        <primitive object={trophy.scene} scale={0.6} />
     </group>
 
 }
@@ -88,15 +88,23 @@ function BlockAxe({ position = [0, 0, 0] }) {
             <mesh geometry={boxGeometry} material={obstacleMaterial} scale={[1.5, 1.5, 0.3]} castShadow receiveShadow />        </RigidBody>
     </group>
 }
-const Levels = () => {
+const Levels = ({ count = 5, types = [BlockSpinner, BlockLimbo, BlockAxe] }) => {
+    const blocks = useMemo(() => {
+        const block = []
+        for (let i = 0; i < count; i++) {
+            const type = types[Math.floor(Math.random() * types.length)]
+            block.push(type)
+        }
+        return block
+    }, [count, types])
+
+    console.log(blocks)
     return <>
 
-        <BlockStart position={[0, 0, 12]} />
-        <BlockSpinner position={[0, 0, 8]} />
-        <BlockLimbo position={[0, 0, 4]} />
-        <BlockAxe position={[0, 0, 0]} />
-        <BlockEnd position={[0, 0, -4]} />
+        <BlockStart position={[0, 0, 0]} />
 
+        {blocks.map((Block, i) => <Block key={i} position={[0, 0, - (i + 1) * 4]} />)}
+        <BlockEnd position={[0, 0, -(count + 1) * 4]} />
     </>
 }
 
