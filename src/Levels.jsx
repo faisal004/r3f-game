@@ -7,7 +7,7 @@ const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 const floor1Material = new THREE.MeshStandardMaterial({ color: 'limegreen' })
 const floor2Material = new THREE.MeshStandardMaterial({ color: 'greenyellow' })
 const obstacleMaterial = new THREE.MeshStandardMaterial({ color: 'orangered' })
-// const wallMaterial = new THREE.MeshStandardMaterial({ color: 'slategrey' })
+const wallMaterial = new THREE.MeshStandardMaterial({ color: 'slategrey' })
 
 function BlockStart({ position = [0, 0, 0] }) {
     return <group position={position}>
@@ -15,6 +15,32 @@ function BlockStart({ position = [0, 0, 0] }) {
 
     </group>
 
+}
+function Bounds({ length = 1 })
+{
+    return <>
+        <mesh
+            position={ [ 2.15, 0.75, - (length * 2) + 2 ] }
+            geometry={ boxGeometry }
+            material={ wallMaterial }
+            scale={ [ 0.3, 1.5, 4 * length ] }
+            castShadow
+        />
+        <mesh
+            position={ [ - 2.15, 0.75, - (length * 2) + 2 ] }
+            geometry={ boxGeometry }
+            material={ wallMaterial }
+            scale={ [ 0.3, 1.5, 4 * length ] }
+            receiveShadow
+        />
+        <mesh
+            position={ [ 0, 0.75, - (length * 4) + 2] }
+            geometry={ boxGeometry }
+            material={ wallMaterial }
+            scale={ [ 4, 1.5, 0.3 ] }
+            receiveShadow
+        />
+    </>
 }
 function BlockEnd({ position = [0, 0, 0] }) {
 
@@ -98,13 +124,14 @@ const Levels = ({ count = 5, types = [BlockSpinner, BlockLimbo, BlockAxe] }) => 
         return block
     }, [count, types])
 
-    console.log(blocks)
     return <>
 
         <BlockStart position={[0, 0, 0]} />
 
         {blocks.map((Block, i) => <Block key={i} position={[0, 0, - (i + 1) * 4]} />)}
         <BlockEnd position={[0, 0, -(count + 1) * 4]} />
+                <Bounds length={ count + 2 } />
+
     </>
 }
 
