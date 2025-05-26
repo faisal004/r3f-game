@@ -120,7 +120,7 @@ function BlockAxe({ position = [0, 0, 0] }) {
             <mesh geometry={boxGeometry} material={obstacleMaterial} scale={[1.5, 1.5, 0.3]} castShadow receiveShadow />        </RigidBody>
     </group>
 }
-const Levels = ({ count = 5, types = [BlockSpinner, BlockLimbo, BlockAxe] }) => {
+const Levels = ({ count = 50, types = [BlockSpinner, BlockLimbo, BlockAxe] }) => {
     const blocks = useMemo(() => {
         const block = []
         for (let i = 0; i < count; i++) {
